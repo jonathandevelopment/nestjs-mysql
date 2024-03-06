@@ -5,10 +5,10 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class TasksService {
-    constructor(@InjectRepository(Task) private taskRepository: Repository<Task>) {}
+    // constructor(@InjectRepository(Task) private taskRepository: Repository<Task>) {}
 
-    createTask(task) {
-        const newTask = this.taskRepository.create(task);
-        return this.taskRepository.save(newTask);
-    }
+    // createTask(task) {
+    //     const newTask = this.taskRepository.create(task);
+    //     return this.taskRepository.save(newTask);
+    // }
 }
