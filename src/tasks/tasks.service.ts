@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { Repository } from 'typeorm';
@@ -20,17 +20,31 @@ export class TasksService {
         return this.taskRepository.find()
     }
 
-    getTask(id: number) {
-       return  this.taskRepository.findOne({
+    async getTask(id: number) {
+       const taskFound = await  this.taskRepository.findOne({
             where: { id },
-        })
+        });
+        if(!taskFound) {
+            return new HttpException('Task not found', HttpStatus.NOT_FOUND)
+        }
+        return this.taskRepository.delete({id});
     }
 
-    deleteTask(id: number) {
-       return this.taskRepository.delete({ id });
+    async deleteTask(id: number) {
+       const taskFound = await this.taskRepository.findOne({ where:{id} });
+       if(!taskFound) {
+        return new HttpException('Task not found', HttpStatus.NOT_FOUND)
+        }
+        return taskFound;
     }
 
-    updateTask(id: number, task: updateTaskDto) {
-      return  this.taskRepository.update({id}, task)
+    async updateTask(id: number, task: updateTaskDto) {
+      const taskFound = await this.taskRepository.findOne({where:{id}});
+      if(!taskFound) {
+        return new HttpException('Task not found', HttpStatus.NOT_FOUND)
+      }
+
+      const updateTask = Object.assign(taskFound, task);
+      return this.taskRepository.save(updateTask)
     }
 }
