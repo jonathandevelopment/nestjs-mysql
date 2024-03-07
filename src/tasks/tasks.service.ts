@@ -27,7 +27,7 @@ export class TasksService {
         if(!taskFound) {
             return new HttpException('Task not found', HttpStatus.NOT_FOUND)
         }
-        return this.taskRepository.delete({id});
+        return taskFound ;
     }
 
     async deleteTask(id: number) {
@@ -35,7 +35,7 @@ export class TasksService {
        if(!taskFound) {
         return new HttpException('Task not found', HttpStatus.NOT_FOUND)
         }
-        return taskFound;
+        return this.taskRepository.delete({id});
     }
 
     async updateTask(id: number, task: updateTaskDto) {
