@@ -14,4 +14,18 @@ export class TasksService {
         const newTask = this.taskRepository.create(task);
         return this.taskRepository.save(newTask);
     }
+
+    getTasks(){
+        return this.taskRepository.find()
+    }
+
+    getTask(id: number) {
+       return  this.taskRepository.findOne({
+            where: { id },
+        })
+    }
+
+    deleteTask(id: number) {
+       return this.taskRepository.delete({ id });
+    }
 }
