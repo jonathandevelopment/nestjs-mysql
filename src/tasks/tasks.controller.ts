@@ -15,7 +15,7 @@ export class TasksController {
     }
 
     @Post()
-    createTask(@Body() newTask: CreateTaskDto) :  Promise<Task> {
+    createTask(@Body() newTask: CreateTaskDto) {
        return this.tasksService.createTask(newTask);
     }
 

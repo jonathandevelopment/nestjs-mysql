@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/users/user.entity";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 
-@Entity({ name: 'tasks' })
+@Entity()
 export class Task {
 
     @PrimaryGeneratedColumn()
@@ -14,5 +15,10 @@ export class Task {
 
     @Column({ type: 'datetime', default: () =>  'CURRENT_TIMESTAMP' })
     createdAt: Date;
+    
+    @Column()
+    authorId:number;
 
+    @ManyToOne(() => User)
+    author: User;
 }

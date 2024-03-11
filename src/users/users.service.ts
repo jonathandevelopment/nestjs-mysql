@@ -4,11 +4,15 @@ import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto  } from './dto/create-user.dto';
 import { UpdateUserDto  } from './dto/update-user.dto';
+import { CreateProfileDto } from 'src/users/dto/create-profile.dto';
+import { Profile } from './profile.entity';
 
 @Injectable()
 export class UsersService {
 
-    constructor(@InjectRepository(User) private userRepository: Repository<User>){}
+    constructor(@InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Profile) private profileRepository: Repository<Profile>){}
+    
 
     createUser(user: CreateUserDto){
         const newUser = this.userRepository.create(user);
@@ -48,6 +52,23 @@ export class UsersService {
         }
 
         return this.userRepository.delete(id)
+    }
+
+
+    // Create Profile
+    async createProfile(id:number, profile:CreateProfileDto){
+        const userFound = await this.userRepository.findOne({where:{id}});
+
+        if(!userFound) {
+            return new HttpException('User not found', HttpStatus.NOT_FOUND)
+        }
+
+        const newProfile = this.profileRepository.create(profile);
+        const savedProfile = await this.profileRepository.save(newProfile);
+        userFound.profile = savedProfile;
+
+        return this.userRepository.save(userFound);
+        
     }
 
 

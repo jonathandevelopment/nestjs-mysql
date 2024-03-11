@@ -22,8 +22,9 @@ const ps = process.env.MYSQLPS;
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true, 
     }),
-    TasksModule,
-    UsersModule],
+    UsersModule,
+    TasksModule
+    ],
   controllers: [AppController],
   providers: [AppService],
 })
