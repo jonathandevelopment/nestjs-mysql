@@ -21,11 +21,16 @@ export class UsersService {
     }
 
     getUsers() {
-       return this.userRepository.find()
+       return this.userRepository.find({
+        relations: ['tasks', 'profile']
+       })
     }
 
    async getUser(id:number) {
-        const userFound = await this.userRepository.findOne({where:{id}});
+        const userFound = await this.userRepository.findOne({
+            where:{id},
+            relations:['tasks']
+        });
 
         if(!userFound) {
             return new HttpException('User not found', HttpStatus.NOT_FOUND)
