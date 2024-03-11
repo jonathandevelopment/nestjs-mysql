@@ -9,18 +9,23 @@ import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
 
 const ps = process.env.MYSQLPS;
+const ho = process.env.HOST;
+const us = process.env.USER;
+const database = process.env.DATABASE;
+
+
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
+      host: `${ho}`,
+      port: 16080,
+      username: 'avnadmin',
       password: `${ps}`,
-      database: 'todo_list',
+      database: `${database}`,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, 
+      synchronize: false, 
     }),
     UsersModule,
     TasksModule
@@ -29,3 +34,4 @@ const ps = process.env.MYSQLPS;
   providers: [AppService],
 })
 export class AppModule {}
+ 
